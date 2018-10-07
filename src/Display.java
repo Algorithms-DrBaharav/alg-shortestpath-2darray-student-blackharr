@@ -68,9 +68,11 @@ public class Display extends JComponent {
     private final Rectangle MODEL_RECT;
     private final Rectangle NEXT_RECT;
     private final Rectangle START_RECT;
+    private final Rectangle N8_RECT;
     private final Rectangle STEP_RECT;
 
     private final JButton startButton = new JButton();
+    private final JButton n8Button = new JButton();
     private final JButton nextButton = new JButton();
     private final JLabel stepLabel = new JLabel();
 
@@ -85,6 +87,7 @@ public class Display extends JComponent {
         MODEL_RECT = new Rectangle(20, frameHeight - 70, 200, 20);
         NEXT_RECT = new Rectangle(250, frameHeight - 70, 80, 20);
         START_RECT = new Rectangle(340, frameHeight - 70, 80, 20);
+        N8_RECT = new Rectangle(450, frameHeight - 70, 40, 20);
         STEP_RECT = new Rectangle(frameWidth - 50, frameHeight - 70, 40, 20);
 
         // create a game
@@ -266,6 +269,30 @@ public class Display extends JComponent {
 
         modelChooser.setBounds(MODEL_RECT);
 
+       
+        n8Button.setText("N8");
+        n8Button.setBounds(N8_RECT);
+        class N8Listener implements ActionListener {
+
+            public void actionPerformed(ActionEvent e) {
+                
+                // hang to toggle!!
+                if (!game.gameEnded() ) {
+                    game.setN8( !game.getN8()) ;
+                    String str = (game.getN8()) ? "N8" : "N4";
+                    n8Button.setText(str);
+                    repaint();
+                }
+            }
+        }
+        n8Button.addActionListener(new N8Listener());
+        n8Button.setVisible(true);
+        add(n8Button);
+        
+        
+        
+        
+        
         // get selected item
         class ComboListener implements ActionListener {
 

@@ -25,6 +25,7 @@ public class PathFinderGame {
 
     private int stepCounter;
 
+    private boolean n8 = true ;     // Neighbour of 8.
 
     // see the interplay of A, B and cellsNow and cellsNext later on below.
     // In general:
@@ -49,14 +50,10 @@ public class PathFinderGame {
     private int endCol ;
     
     
-    // -- Start of Place2
     // These are used also by Display, to disaply all possible options
     // These are set in setPattern() below
-    // Give a new name to your shape, and put it here.
     public final static String[] modelNames = new String[]
 			{"Clear","One diag line","Two diag lines","2 Start points"};    
-    
-    // -- End of Place2
     
     public PathFinderGame(int rows, int cols) {
         this.rows = rows;
@@ -84,6 +81,14 @@ public class PathFinderGame {
 
 
     }
+    
+    public void setN8( boolean in) {
+        n8 = in;
+    }
+    
+    public boolean getN8() {
+        return n8 ;
+    }
 
     public void step() {
 
@@ -93,32 +98,19 @@ public class PathFinderGame {
         Main part: Go over all elements, and apply the neighbours rule.
         */
 
-        for (int ii = 0; ii < rows; ii++) {
-            for (int jj = 0; jj < cols; jj++) {
-                // Four directions, and take care of wrap-around
-
-                cellsNext[ii][jj] = cellsNow[ii][jj];
-                
-                if (cellsNow[ii][jj] !=0 ) continue ;
-                
-                int val = 0;
-                for (int ns=-1; ns<=1 && val==0 ; ++ns) {
-                    int r = ii+ns;
-                    for (int ew=-1; ew<=1 && val==0 ; ++ew) {
-                        int c = jj+ew;
-                        if (r>=0 && r<rows && c>=0 && c<cols) {
-                            if (cellsNow[r][c]>0) 
-                                val=cellsNow[r][c] ; 
-                        }
-                    }
-                }
-                if (val >0)
-                    cellsNext[ii][jj] = val+1;
-                
-            }
+        if (n8) {
+           // Your code here
+           
+           
+           //by here, after your code, the cellsNext array should be updated properly
         }
 
-        
+        if (!n8) {  // neighbours-4
+            // your code here
+
+           //by here, after your code, the cellsNext array should be updated properly
+        }
+
         // Flip the arrays now.
         stepCounter++;
 	tmp = cellsNow;
