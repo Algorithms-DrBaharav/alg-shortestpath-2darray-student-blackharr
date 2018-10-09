@@ -99,25 +99,76 @@ public class PathFinderGame {
         */
 
         if (n8) {
-           // Your code here
-           
-           
-           //by here, after your code, the cellsNext array should be updated properly
-        }
-
-        if (!n8) {  // neighbours-4
-            // your code here
-
-           //by here, after your code, the cellsNext array should be updated properly
-        }
+           	for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				if (cellsNow[r][c] > 0) {
+					cellsNext[r][c] = cellsNow[r][c];
+					update8Neighbors(r, c);
+				} else {
+					cellsNext[r][c] = cellsNow[r][c];
+				}
+			}
+		}
+        } if (!n8) {
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				if (cellsNow[r][c] > 0) {
+					cellsNext[r][c] = cellsNow[r][c];
+					update4Neighbors(r, c);
+				} else {
+					cellsNext[r][c] = cellsNow[r][c];
+				}
+			}
+		}
+	}
 
         // Flip the arrays now.
         stepCounter++;
-	tmp = cellsNow;
-        cellsNow = cellsNext;
-	cellsNext  = tmp;
-
+		tmp = cellsNow;
+		cellsNow = cellsNext;
+		cellsNext  = tmp;
     }
+	
+	private void update8Neighbors(int r, int c) {
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (r+i < rows && c+j < cols && r+i >= 0 && c+j >= 0 && cellsNext[r+i][c+j] == 0)
+					setToLowest8Neighbor(r+i, c+j, r, c);
+			}
+		}
+	}
+	
+	private void update4Neighbors(int r, int c) {
+		for (int i = -1; i < 2; i += 2) {
+			if (r+i < rows && r+i >= 0 && cellsNext[r+i][c] == 0)
+				setToLowest4Neighbor(r+i, c, r, c);
+			if (c+i < cols && c+i >= 0 && cellsNext[r][c+i] == 0)
+				setToLowest4Neighbor(r, c+i, r, c);
+		}
+	}
+	
+	private void setToLowest8Neighbor(int r, int c, int startr, int startc) {
+		int minval = cellsNow[startr][startc];
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (r+i < rows && c+j < cols && r+i >= 0 && c+j >= 0)
+					if (cellsNow[r+i][c+j] > 0 && cellsNow[r+i][c+j] < minval)
+						minval = cellsNow[r+i][c+j];
+			}
+		}
+		cellsNext[r][c] = minval;
+	}
+	
+	private void setToLowest4Neighbor(int r, int c, int startr, in startc) {
+		int minval = cellsNow[startr][startc];
+		for (int i = -1; i < 2; i += 2) {
+			if (r+i < rows && r+i >= 0 && cellsNext[r+i][c] > 0 && cellsNext[r+i][c] < minval)
+				minval = cellsNext[r+i][c];
+			if (c+i < cols && c+i >= 0 && cellsNext[r][c+i] > 0 && cellsNext[r][c+i] < minval)
+				minval = cellsNext[r][c+i];
+		}
+		cellsNext[r][c] = minval;
+	}
 
     private void clearCells(int[][] array) {
         for (int ii = 0; ii < rows; ii++) {
