@@ -156,7 +156,7 @@ public class PathFinderGame {
 						minval = cellsNow[r+i][c+j];
 			}
 		}
-		cellsNext[r][c] = minval;
+		cellsNext[r][c] = minval + 1;
 	}
 	
 	private void setToLowest4Neighbor(int r, int c, int startr, in startc) {
@@ -167,7 +167,7 @@ public class PathFinderGame {
 			if (c+i < cols && c+i >= 0 && cellsNext[r][c+i] > 0 && cellsNext[r][c+i] < minval)
 				minval = cellsNext[r][c+i];
 		}
-		cellsNext[r][c] = minval;
+		cellsNext[r][c] = minval + 1;
 	}
 
     private void clearCells(int[][] array) {
