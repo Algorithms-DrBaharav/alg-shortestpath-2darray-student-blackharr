@@ -53,7 +53,7 @@ public class PathFinderGame {
 	// These are used also by Display, to disaply all possible options
 	// These are set in setPattern() below
 	public final static String[] modelNames = new String[]
-			{"Clear","One diag line","Two diag lines","2 Start points", "Paul"};
+			{"Clear","One diag line","Two diag lines","2 Start points", "Paul", "Shapes"};
 
 	public PathFinderGame(int rows, int cols) {
 		this.rows = rows;
@@ -275,6 +275,30 @@ public class PathFinderGame {
 					if (i % 2 == 0 && j % 2 == 0)
 						cellsNow[i][j] = -1;
 				}
+			startRow = 3;
+			startCol = 6;
+			endRow = rows-5;
+			endCol = cols-2;
+			cellsNow[startRow][startCol] = 1;
+
+		}
+		
+		if (pattern.equals("Shapes")) {
+			int rad = rows > cols ? rows/4-1 : cols/4-1;
+			for (int i = 0; i < rows; i++) {
+				for (int j = 0; j < cols; j++) {
+					int circlex = Math.pow(i-rows/2, 2);
+					int circley = Math.pow(j-cols/2, 2);
+					if (circlex + circley ==  rad*rad)
+						cellsNow[i][j] = -1;
+					else if (circlex + circley - 1 == rad*rad)
+						cellsNow[i][j] = -1;
+					if (i == rows/2 + rad && j == cols/2 + rad)
+						cellsNow[i][j] = 0;
+					
+					
+				}
+			}
 			startRow = 3;
 			startCol = 6;
 			endRow = rows-5;
