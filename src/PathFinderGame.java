@@ -270,9 +270,11 @@ public class PathFinderGame {
 
 			for (int i = 1; i < rows-1; i++)
 				for (int j = 1; j < cols-1; j++) {
-					if ((i-j % 3 == 0 || j-i % 3 == 0) && i+j % 3 == 0)
+					if (i % 3 == 0 && j % 3 == 0)
 						cellsNow[i][j] = -1;
 					if (i % 2 == 0 && j % 2 == 0)
+						cellsNow[i][j] = -1;
+					if (i % 5 == 0 && j % 5 == 0)
 						cellsNow[i][j] = -1;
 				}
 			startRow = 3;
@@ -284,27 +286,32 @@ public class PathFinderGame {
 		}
 		
 		if (pattern.equals("Shapes")) {
-			int rad = rows > cols ? rows/4-1 : cols/4-1;
+			int radius = rows > cols ? rows/4 : cols/4;
 			for (int i = 0; i < rows; i++) {
 				for (int j = 0; j < cols; j++) {
-					int circlex = Math.pow(i-rows/2, 2);
-					int circley = Math.pow(j-cols/2, 2);
-					if (circlex + circley ==  rad*rad)
+					double circlex = Math.pow(i-rows/2, 2);
+					double circley = Math.pow(j-cols/2, 2);
+					if (0.75 > Math.abs(Math.pow(circlex + circley, 0.5) - radius))
 						cellsNow[i][j] = -1;
-					else if (circlex + circley - 1 == rad*rad)
-						cellsNow[i][j] = -1;
-					if (i == rows/2 + rad && j == cols/2 + rad)
-						cellsNow[i][j] = 0;
-					
-					
 				}
 			}
+			
+			for (int i = rows/2-rows/8; i <= rows/2+rows/8; i++) {
+				cellsNow[i][cols/2-cols/8] = -1;
+				cellsNow[i][cols/2+cols/8] = -1;
+			}
+			for (int j = cols/2-cols/8; j <= cols/2+cols/8; j++) {
+				cellsNow[rows/2-rows/8][j] = -1;
+				cellsNow[rows/2+rows/8][j] = -1;
+			}
+			
 			startRow = 3;
 			startCol = 6;
-			endRow = rows-5;
-			endCol = cols-2;
+			endRow = rows/2;
+			endCol = cols/2;
 			cellsNow[startRow][startCol] = 1;
-
+			cellsNow[rows/2][cols/2 + radius] = 0;
+			cellsNow[rows/2][cols/2 - cols/8] = 0;
 		}
 
 	}
